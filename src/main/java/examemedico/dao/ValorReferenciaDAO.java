@@ -1,17 +1,13 @@
 package examemedico.dao;
 
-import com.mysql.cj.x.protobuf.MysqlxCrud;
 import examemedico.connection.ConnectionModule;
 import examemedico.exception.DatabaseException;
-import examemedico.model.DetalheExameResultado;
 import examemedico.model.ValorReferencia;
 
 import java.sql.*;
 
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
 
 import static examemedico.connection.ConnectionModule.prepareStatement;
 

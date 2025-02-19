@@ -5,8 +5,8 @@ public class UnidadeMedida {
     private int id;
     private String descricao;
     private String sigla;
-    private int tipo_exame_id; // Atributo de chave estrangeira
-    private int serie_exame_id; // Atributo de chave estrangeira
+    private int tipo_exame_id;
+    private int serie_exame_id;
 
     public UnidadeMedida() {}
 
