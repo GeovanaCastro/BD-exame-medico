@@ -2,9 +2,12 @@ package examemedico.dao;
 
 import examemedico.connection.ConnectionModule;
 import examemedico.exception.DatabaseException;
+import examemedico.model.ExameResultado;
 import examemedico.model.UnidadeMedida;
 
 import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
 
 import static examemedico.connection.ConnectionModule.prepareStatement;
 
@@ -20,8 +23,6 @@ public class UnidadeMedidaDAO {
         try (PreparedStatement preparedStatement = prepareStatement(INSERT)) {
             preparedStatement.setString(1, unidadeMedida.getDescricao());
             preparedStatement.setString(2, unidadeMedida.getSigla());
-            preparedStatement.setInt(3, unidadeMedida.getTipo_exame_id());
-            preparedStatement.setInt(4, unidadeMedida.getSerie_exame_id());
             preparedStatement.executeUpdate();
             System.out.println("Unidade de Medida criada com sucesso!");
         } catch (SQLException e) {
@@ -31,11 +32,9 @@ public class UnidadeMedidaDAO {
 
     public void updateUnidadeMedida(UnidadeMedida unidadeMedida) throws SQLException {
         try (PreparedStatement preparedStatement = prepareStatement(UPDATE)) {
-            preparedStatement.setString(1, unidadeMedida.getDescricao());
-            preparedStatement.setString(2, unidadeMedida.getSigla());
-            preparedStatement.setInt(3, unidadeMedida.getTipo_exame_id());
-            preparedStatement.setInt(4, unidadeMedida.getSerie_exame_id());
-            preparedStatement.setInt(5, unidadeMedida.getId());
+            preparedStatement.setString(2, unidadeMedida.getDescricao());
+            preparedStatement.setString(3, unidadeMedida.getSigla());
+            preparedStatement.setInt(1, unidadeMedida.getId());
             preparedStatement.executeUpdate();
             System.out.println("Unidade de Medida atualizada com sucesso!");
         } catch (SQLException e) {
@@ -78,23 +77,25 @@ public class UnidadeMedidaDAO {
         }
     }
 
-    public void findAllUnidadeMedida() throws SQLException {
-        try (PreparedStatement preparedStatement = prepareStatement(SELECT);
-             ResultSet resultSet = preparedStatement.executeQuery()) {
+    public List<UnidadeMedida> getAllUnidadesMedida() throws SQLException {
+        List<UnidadeMedida> unidadesMedida = new ArrayList<>();
 
-            if (!resultSet.isBeforeFirst()) {
-                System.out.println("Nenhuma unidade de medida encontrada.");
-            } else {
-                while (resultSet.next()) {
-                    System.out.println("ID: " + resultSet.getInt("id") +
-                            " | Descrição: " + resultSet.getString("descricao") +
-                            " | Sigla: " + resultSet.getString("sigla") +
-                            " | Tipo Exame ID: " + resultSet.getInt("tipo_exame_id") +
-                            " | Série Exame ID: " + resultSet.getInt("serie_exame_id"));
-                }
+        try (PreparedStatement preparedStatement = prepareStatement(SELECT)) {
+            ResultSet resultSet = preparedStatement.executeQuery();
+
+            while (resultSet.next()) {
+                UnidadeMedida unidadeMedida = new UnidadeMedida();
+                unidadeMedida.setId(resultSet.getInt("id"));
+                unidadeMedida.setDescricao(resultSet.getString("descricao"));
+                unidadeMedida.setSigla(resultSet.getString("sigla"));
+
+                unidadesMedida.add(unidadeMedida);
             }
         } catch (SQLException e) {
-            throw new DatabaseException("Erro ao buscar todas as unidades de medida no banco de dados", e, e.getErrorCode(), e.getSQLState());
+            throw new DatabaseException("Erro ao buscar unidades de medida no banco de dados", e, e.getErrorCode(), e.getSQLState());
         }
+
+        return unidadesMedida;
     }
+
 }

@@ -21,13 +21,15 @@ public class PessoaDAO{
 
 
     public void createPessoa(Pessoa pessoa) throws SQLException {
+
         try (PreparedStatement preparedStatement = prepareStatement(INSERT)) {
             preparedStatement.setString(1, pessoa.getNome());
             preparedStatement.setInt(2, pessoa.getIdade());
             preparedStatement.executeUpdate();
-            System.out.println("Pessoa criada com sucesso!");
+            System.out.println(" Pessoa criada com sucesso!");
+
         } catch (SQLException e) {
-            throw new DatabaseException("Erro ao criar pessoa no banco de dados", e, e.getErrorCode(), e.getSQLState());
+            throw new DatabaseException("Erro ao criar  pessoa no banco de dados", e, e.getErrorCode(), e.getSQLState());
         }
     }
 

@@ -5,6 +5,7 @@ import examemedico.exception.DatabaseException;
 import examemedico.model.SerieExame;
 
 import java.sql.*;
+import java.util.List;
 
 import static examemedico.connection.ConnectionModule.prepareStatement;
 
@@ -69,7 +70,7 @@ public class SerieExameDAO {
         }
     }
 
-    public void findAllSerieExame() throws SQLException {
+    public List<SerieExame> findAllSerieExame() throws SQLException {
         try (PreparedStatement preparedStatement = prepareStatement(SELECT);
              ResultSet resultSet = preparedStatement.executeQuery()) {
 
@@ -84,5 +85,6 @@ public class SerieExameDAO {
         } catch (SQLException e) {
             throw new DatabaseException("Erro ao buscar todas as séries de exame no banco de dados", e, e.getErrorCode(), e.getSQLState());
         }
+        return List.of();
     }
 }

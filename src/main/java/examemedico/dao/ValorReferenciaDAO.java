@@ -8,6 +8,7 @@ import java.sql.*;
 
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import java.util.List;
 
 import static examemedico.connection.ConnectionModule.prepareStatement;
 
@@ -77,7 +78,7 @@ public class ValorReferenciaDAO {
         }
     }
 
-    public void findAllValorReferencia() throws SQLException {
+    public List<ValorReferencia> findAllValorReferencia() throws SQLException {
         try (PreparedStatement preparedStatement = prepareStatement(SELECT);
              ResultSet resultSet = preparedStatement.executeQuery()) {
 
@@ -91,5 +92,6 @@ public class ValorReferenciaDAO {
         } catch (SQLException e) {
             throw new DatabaseException("Erro ao buscar todos os valores referencia no banco de dados", e, e.getErrorCode(), e.getSQLState());
         }
+        return List.of();
     }
 }
