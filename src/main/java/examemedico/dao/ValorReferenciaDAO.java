@@ -62,17 +62,13 @@ public class ValorReferenciaDAO {
 
             preparedStatement.setInt(1, id);
 
-            // Criar o ResultSet dentro do try
             try (ResultSet resultSet = preparedStatement.executeQuery()) {
                 if (resultSet.next()) {
-                    // Criando o objeto a partir dos dados retornados
                    ValorReferencia valor_referencia = new ValorReferencia(
                             resultSet.getInt("id"),
                             resultSet.getString("valor_referencia_por"),
                             resultSet.getString("valor_referencia_abs")
                     );
-
-                    // Exibir o valor amostrado na saída padrão
                     System.out.println("Valores encontrados: \nValor Referencia por = " + valor_referencia.getValor_referencia_por()+",\nValor Referencia abs = " + valor_referencia.getValor_referencia_abs());
                     return valor_referencia;
                 } else {

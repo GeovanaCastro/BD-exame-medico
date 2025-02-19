@@ -81,7 +81,7 @@ public class DetalheExameResultadoDAO {
         }
     }
 
-    public void findAllDetalheExameResultado() throws SQLException {
+    public List<DetalheExameResultado> findAllDetalheExameResultado() throws SQLException {
         try (PreparedStatement preparedStatement = prepareStatement(SELECT);
              ResultSet resultSet = preparedStatement.executeQuery()) {
 
@@ -95,5 +95,6 @@ public class DetalheExameResultadoDAO {
         } catch (SQLException e) {
             throw new DatabaseException("Erro ao buscar todos os detalhes de resultado de exame no banco de dados", e, e.getErrorCode(), e.getSQLState());
         }
+        return List.of();
     }
 }
